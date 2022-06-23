@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Hello world</string>
+    <string name="button_show">Отобразить</string>
+    <string name="sqr_calc">Квадратные уровнения</string>
+    <string name="namea">a</string>
+    <string name="nameb">b</string>
+    <string name="namec">c</string>
+    <string name="calc_x">Вычислить</string>
+</resources>
