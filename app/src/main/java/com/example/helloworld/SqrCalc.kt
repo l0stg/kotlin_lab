@@ -36,7 +36,7 @@ class SqrCalc : AppCompatActivity() {
             }
             else true
         }
-        
+
         fun CalcX (a:Double, b: Double, c: Double) {
             val descriminant = descriminantCalc(a, b, c)
             if (descriminant < 0)
