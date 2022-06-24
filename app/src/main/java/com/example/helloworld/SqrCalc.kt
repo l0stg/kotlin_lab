@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import java.lang.Math.sqrt
 
 class SqrCalc : AppCompatActivity() {
@@ -12,6 +13,7 @@ class SqrCalc : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sqr_calc)
         val button_calc_x = findViewById<Button>(R.id.calc_x)
+        val result = findViewById<TextView>(R.id.tvresults)
 
         fun descriminantCalc(a:Double, b: Double, c: Double): Double {
             var descriminant: Double = b*b - 4*a*c
@@ -27,15 +29,34 @@ class SqrCalc : AppCompatActivity() {
             return (x2)
         }
 
-        button_calc_x.setOnClickListener{
-                val a: Double = findViewById<EditText>(R.id.editA).text.toString().toDouble()
-                val b: Double = findViewById<EditText>(R.id.editB).text.toString().toDouble()
-                val c: Double = findViewById<EditText>(R.id.editC).text.toString().toDouble()
-                val xone = x_one(a, b, c).toString()
-                val xsecond = x_second(a, b, c).toString()
-                val result = findViewById<TextView>(R.id.tvresults)
-                result.text = "x1= $xone и x2= $xsecond"
+        fun CheckItem(a: String, b:String, c: String):Boolean {
+            return if (a.toDoubleOrNull() == null || b.toDoubleOrNull() == null || c.toDoubleOrNull() == null){
+                Toast.makeText(this, "Введите число", Toast.LENGTH_LONG).show()
+            false
+            }
+            else true
+        }
+        
+        fun CalcX (a:Double, b: Double, c: Double) {
+            val descriminant = descriminantCalc(a, b, c)
+            if (descriminant < 0)
+                result.text = "Дискриминант меньше нуля, корни комплексны"
+            if (descriminant > 0) {
+                val x1 = x_one(a, b, c).toString()
+                val x2 = x_second(a, b, c).toString()
+                result.text = "x1= $x1 x2= $x2"
+            }else {
+                val x1 = x_one(a,b,c)
+                result.text = "x1= $x1 "
+            }
+        }
 
+        button_calc_x.setOnClickListener{
+                val a = findViewById<EditText>(R.id.editA).text.toString()
+                val b = findViewById<EditText>(R.id.editB).text.toString()
+                val c = findViewById<EditText>(R.id.editC).text.toString()
+                if (CheckItem(a,b,c))
+                    CalcX(a.toDouble(), b.toDouble(), c.toDouble())
         }
     }
 }
