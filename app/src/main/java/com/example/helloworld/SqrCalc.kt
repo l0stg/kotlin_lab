@@ -1,5 +1,6 @@
 package com.example.helloworld
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -36,7 +37,7 @@ class SqrCalc : AppCompatActivity() {
             }
             else true
         }
-
+        
         fun CalcX (a:Double, b: Double, c: Double) {
             val descriminant = descriminantCalc(a, b, c)
             if (descriminant < 0)

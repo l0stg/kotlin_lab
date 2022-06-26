@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import com.example.finalcalculator.CalculateActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         val button_start_calcute = findViewById<Button>(R.id.startCalcute)
         button_show.setOnClickListener{
             val tvShow = findViewById<TextView>(R.id.tvHelloWorld)
-            tvShow.text = "Привет мир"
+            tvShow.text = getString(R.string.hello_world)
         }
         button_sqr_calc_start.setOnClickListener{
             val intent = Intent(this, SqrCalc::class.java)
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         }
         button_start_calcute.setOnClickListener {
             val intent = Intent(this, CalculateActivity::class.java)
-            startActivity(intent)
+           startActivity(intent)
         }
     }
 }

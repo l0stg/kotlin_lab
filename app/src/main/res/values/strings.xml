@@ -7,4 +7,6 @@
     <string name="namec">c</string>
     <string name="calc_x">Вычислить</string>
     <string name="calcute">Калькулятор</string>
+    <string name="hello_world">Привет мир</string>
+
 </resources>
