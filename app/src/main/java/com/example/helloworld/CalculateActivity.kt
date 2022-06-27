@@ -3,6 +3,7 @@ package com.example.helloworld
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
 import com.example.helloworld.databinding.ActivityCalculateBinding
 import kotlinx.android.synthetic.main.activity_calculate.*
 
@@ -31,7 +32,7 @@ class CalculateActivity : AppCompatActivity() {
         }
 
         fun Operation (operator: String) {
-            if (operatorOn == false) {
+            if (!operatorOn) {
                 tvinput.text = tvinput.text.toString() + operator
                 operatorOn = true
             }else {
@@ -109,9 +110,8 @@ class CalculateActivity : AppCompatActivity() {
         }
 
         binding.tvEquals.setOnClickListener {
-
             var str = tvinput.text.toString()
-            if (operatorOn == true) {
+            if (operatorOn) {
                 if (str.last() != operator[0]) {
                     if (str[0] != operator[0]) {
                         firstArgument = tvinput.text.toString().substringBefore(operator).toDouble()
@@ -160,7 +160,7 @@ class CalculateActivity : AppCompatActivity() {
             Operation(operator)
         }
         binding.tvDot.setOnClickListener {
-            if (dotFlag == false){
+            if (!dotFlag){
                 tvinputStr = tvinput.text.toString()
                 tvinputStr += "."
                 tvinput.text = tvinputStr
