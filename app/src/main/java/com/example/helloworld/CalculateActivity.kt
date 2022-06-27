@@ -20,11 +20,13 @@ class CalculateActivity : AppCompatActivity() {
         var firstArgument: Double
         var secondArgument: Double
         var resultFinal = 0.0
+        var dotFlag = false
 
         fun allClear() {
             tvinput.text = ""
             tvresult.text = ""
             resultFinal = 0.0
+            dotFlag = false
         }
 
         fun Operation (operator: String) {
@@ -106,24 +108,35 @@ class CalculateActivity : AppCompatActivity() {
         }
 
         binding.tvEquals.setOnClickListener {
-            var  str = tvinput.text.toString()
-            if (str[0] != operator[0]) {
-                firstArgument = tvinput.text.toString().substringBefore(operator).toDouble()
-                secondArgument = tvinput.text.toString().substringAfter(operator).toDouble()
-                resultFinal = 0.0
-            }else {
-                firstArgument = resultFinal
-                secondArgument = tvinput.text.toString().substringAfter(operator).toDouble()
-            }
-            when (operator) {
-                "+" -> resultFinal = firstArgument + secondArgument
-                "-" -> resultFinal = firstArgument - secondArgument
-                "/" -> resultFinal = firstArgument / secondArgument
-                "*" -> resultFinal = firstArgument * secondArgument
-            }
-            tvresult.text = resultFinal.toString()
-            tvinput.text = ""
-            operatorOn = false
+
+            var str = tvinput.text.toString()
+            if (operatorOn == true) {
+                if (str.last() != operator[0]) {
+                    if (str[0] != operator[0]) {
+                        firstArgument = tvinput.text.toString().substringBefore(operator).toDouble()
+                        secondArgument = tvinput.text.toString().substringAfter(operator).toDouble()
+                        resultFinal = 0.0
+                    } else {
+                        firstArgument = resultFinal
+                        secondArgument = tvinput.text.toString().substringAfter(operator).toDouble()
+                    }
+                    when (operator) {
+                        "+" -> resultFinal = firstArgument + secondArgument
+                        "-" -> resultFinal = firstArgument - secondArgument
+                        "/" -> {
+                            if (firstArgument == 0.0 && secondArgument == 0.0)
+                                resultFinal = 1.0
+                            else
+                                resultFinal = firstArgument / secondArgument
+                        }
+                        "*" -> resultFinal = firstArgument * secondArgument
+                    }
+                    tvresult.text = resultFinal.toString()
+                    tvinput.text = ""
+                    operatorOn = false
+                    dotFlag = false
+                } else Toast.makeText(this, "Введите второе число", Toast.LENGTH_LONG).show()
+            }else Toast.makeText(this, "Выберите оператор", Toast.LENGTH_LONG).show()
         }
 
         binding.tvPlus.setOnClickListener {
@@ -144,6 +157,14 @@ class CalculateActivity : AppCompatActivity() {
         binding.tvMul.setOnClickListener {
             operator = "*"
             Operation(operator)
+        }
+        binding.tvDot.setOnClickListener {
+            if (dotFlag == false){
+                tvinputStr = tvinput.text.toString()
+                tvinputStr += "."
+                tvinput.text = tvinputStr
+                dotFlag = true
+            }
         }
 
     }
