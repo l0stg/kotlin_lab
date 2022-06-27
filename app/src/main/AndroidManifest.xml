@@ -16,8 +16,7 @@
         <activity
             android:name=".CalculateActivity"
             android:exported="false"
-            android:label="@string/calcute"
-        />
+            android:label="@string/calcute" />
         <activity
             android:name=".SqrCalc"
             android:exported="false"
