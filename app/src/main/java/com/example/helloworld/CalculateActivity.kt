@@ -27,6 +27,7 @@ class CalculateActivity : AppCompatActivity() {
             tvresult.text = ""
             resultFinal = 0.0
             dotFlag = false
+            operatorOn = false
         }
 
         fun Operation (operator: String) {
