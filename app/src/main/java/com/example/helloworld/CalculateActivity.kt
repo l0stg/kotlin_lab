@@ -30,7 +30,7 @@ class CalculateActivity : AppCompatActivity() {
         fun Operation (operator: String) {
             if (operatorOn == false) {
                 tvinput.text = tvinput.text.toString() + operator
-                //operatorOn = true
+                operatorOn = true
             }else {
                 Toast.makeText(this, "Нажмите равно", Toast.LENGTH_SHORT).show()
             }
@@ -123,6 +123,7 @@ class CalculateActivity : AppCompatActivity() {
             }
             tvresult.text = resultFinal.toString()
             tvinput.text = ""
+            operatorOn = false
         }
 
         binding.tvPlus.setOnClickListener {
