@@ -26,16 +26,16 @@ class SqrCalc : AppCompatActivity() {
             return descriminant
         }
 
-        fun x_one(a:Double, b: Double, c: Double): Double {
+        fun getXone(a:Double, b: Double, c: Double): Double {
             val x1 =  (-b + kotlin.math.sqrt(descriminantCalc(a, b, c))) / (2 * a)
             return (x1)
         }
-        fun x_second(a:Double, b: Double, c: Double): Double {
+        fun getXsecond(a:Double, b: Double, c: Double): Double {
             val x2 =  (-b - kotlin.math.sqrt(descriminantCalc(a, b, c))) / (2 * a)
             return (x2)
         }
 
-        fun CheckItem(a: String, b:String, c: String):Boolean {
+        fun checkItem(a: String, b:String, c: String):Boolean {
             return if (a.toDoubleOrNull() == null || b.toDoubleOrNull() == null || c.toDoubleOrNull() == null){
                 Toast.makeText(this, "Введите число", Toast.LENGTH_LONG).show()
             false
@@ -43,16 +43,16 @@ class SqrCalc : AppCompatActivity() {
             else true
         }
 
-        fun CalcX (a:Double, b: Double, c: Double) {
+        fun calcX (a:Double, b: Double, c: Double) {
             val descriminant = descriminantCalc(a, b, c)
             if (descriminant < 0)
                 result.text = "Дискриминант меньше нуля, корни комплексны"
             if (descriminant > 0) {
-                val x1 = x_one(a, b, c).toString()
-                val x2 = x_second(a, b, c).toString()
+                val x1 = getXone(a, b, c).toString()
+                val x2 = getXsecond(a, b, c).toString()
                 result.text = "x1= $x1 x2= $x2"
             }else {
-                val x1 =  x_one(a,b,c)
+                val x1 =  getXone(a,b,c)
                 result.text = "x1= $x1 "
             }
         }
@@ -61,8 +61,8 @@ class SqrCalc : AppCompatActivity() {
                 val a = bindingSqr.editA.text.toString()
                 val b = bindingSqr.editB.text.toString()
                 val c = bindingSqr.editC.text.toString()
-                if (CheckItem(a,b,c))
-                    CalcX(a.toDouble(), b.toDouble(), c.toDouble())
+                if (checkItem(a,b,c))
+                    calcX(a.toDouble(), b.toDouble(), c.toDouble())
         }
     }
 }
