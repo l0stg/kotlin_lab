@@ -1,7 +1,9 @@
 package com.example.helloworld
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.helloworld.databinding.ActivityCalculateBinding
@@ -13,113 +15,63 @@ class CalculateActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCalculateBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        var tvinput = binding.tvExpression
-        var tvresult = binding.tvResult
-        var tvinputStr = ""
         var operator = ""
         var operatorOn = false
         var firstArgument: Double
         var secondArgument: Double
         var resultFinal = 0.0
-        var dotFlag = false
+
+
+        fun showText(text: String){
+            Toast.makeText(this, text, Toast.LENGTH_LONG).show()
+        }
+
+        fun addDot(){
+            if ("." !in tvExpression.text.toString()){
+                binding.tvExpression.text = binding.tvExpression.text.toString() + binding.tvDot.text
+            }
+        }
 
         fun allClear() {
-            tvinput.text = ""
-            tvresult.text = ""
+            binding.tvExpression.text = ""
+            binding.tvResult.text = ""
             resultFinal = 0.0
-            dotFlag = false
             operatorOn = false
         }
 
-        fun Operation (operator: String) {
+        fun dropLastElements(){
+            binding.tvExpression.text = binding.tvExpression.text.toString().dropLast(1)
+        }
+
+        fun operation (operator: String) {
             if (!operatorOn) {
-                tvinput.text = tvinput.text.toString() + operator
+                binding.tvExpression.text = binding.tvExpression.text.toString() + operator
                 operatorOn = true
             }else {
                 Toast.makeText(this, "Нажмите равно", Toast.LENGTH_SHORT).show()
             }
         }
 
-        binding.tvOne.setOnClickListener {
-            tvinputStr = tvinput.text.toString()
-            tvinputStr += "1"
-            tvinput.text = tvinputStr
+        fun clickOperator(operatorSub: String){
+            operator = operatorSub
+            operation(operatorSub)
         }
 
-        binding.tvTwo.setOnClickListener {
-            tvinputStr = tvinput.text.toString()
-            tvinputStr += "2"
-            tvinput.text = tvinputStr
+        fun buttonClick(buttonId: String){
+            binding.tvExpression.text = binding.tvExpression.text.toString() + buttonId
         }
 
-        binding.tvThree.setOnClickListener {
-            tvinputStr = tvinput.text.toString()
-            tvinputStr += "3"
-            tvinput.text = tvinputStr
-        }
-
-        binding.tvFour.setOnClickListener {
-            tvinputStr = tvinput.text.toString()
-            tvinputStr += "4"
-            tvinput.text = tvinputStr
-        }
-
-        binding.tvFive.setOnClickListener {
-            tvinputStr = tvinput.text.toString()
-            tvinputStr += "5"
-            tvinput.text = tvinputStr
-        }
-
-        binding.tvSix.setOnClickListener {
-            tvinputStr = tvinput.text.toString()
-            tvinputStr += "6"
-            tvinput.text = tvinputStr
-        }
-
-        binding.tvSeven.setOnClickListener {
-            tvinputStr = tvinput.text.toString()
-            tvinputStr += "7"
-            tvinput.text= tvinputStr
-        }
-
-        binding.tvEight.setOnClickListener {
-            tvinputStr = tvinput.text.toString()
-            tvinputStr += "8"
-            tvinput.text = tvinputStr
-        }
-
-        binding.tvNine.setOnClickListener {
-            tvinputStr = tvinput.text.toString()
-            tvinputStr += "9"
-            tvinput.text = tvinputStr
-        }
-
-        binding.tvZero.setOnClickListener {
-            tvinputStr = tvinput.text.toString()
-            tvinputStr += "0"
-            tvinput.text = tvinputStr
-        }
-
-        binding.tvClear.setOnClickListener {
-            allClear()
-        }
-
-        binding.tvBack.setOnClickListener {
-            tvinputStr = tvinputStr.dropLast(1)
-            tvinput.text = tvinputStr
-        }
-
-        binding.tvEquals.setOnClickListener {
-            var str = tvinput.text.toString()
+        fun countFinalEquals() {
+            var str = binding.tvExpression.text.toString()
             if (operatorOn) {
                 if (str.last() != operator[0]) {
                     if (str[0] != operator[0]) {
-                        firstArgument = tvinput.text.toString().substringBefore(operator).toDouble()
-                        secondArgument = tvinput.text.toString().substringAfter(operator).toDouble()
+                        firstArgument = binding.tvExpression.text.toString().substringBefore(operator).toDouble()
+                        secondArgument = binding.tvExpression.text.toString().substringAfter(operator).toDouble()
                         resultFinal = 0.0
                     } else {
                         firstArgument = resultFinal
-                        secondArgument = tvinput.text.toString().substringAfter(operator).toDouble()
+                        secondArgument = binding.tvExpression.text.toString().substringAfter(operator).toDouble()
                     }
                     when (operator) {
                         "+" -> resultFinal = firstArgument + secondArgument
@@ -132,42 +84,53 @@ class CalculateActivity : AppCompatActivity() {
                         }
                         "*" -> resultFinal = firstArgument * secondArgument
                     }
-                    tvresult.text = resultFinal.toString()
-                    tvinput.text = ""
+                    binding.tvResult.text = resultFinal.toString()
+                    binding.tvExpression.text = ""
                     operatorOn = false
-                    dotFlag = false
-                } else Toast.makeText(this, "Введите второе число", Toast.LENGTH_LONG).show()
-            }else Toast.makeText(this, "Выберите оператор", Toast.LENGTH_LONG).show()
+                } else showText("Введите второе число")
+            }else showText("Выберите оператор")
         }
 
-        binding.tvPlus.setOnClickListener {
-            operator = "+"
-            Operation(operator)
-        }
-
-        binding.tvMinus.setOnClickListener {
-            operator = "-"
-            Operation(operator)
-        }
-
-        binding.tvDivide.setOnClickListener{
-            operator = "/"
-            Operation(operator)
-        }
-
-        binding.tvMul.setOnClickListener {
-            operator = "*"
-            Operation(operator)
-        }
-        binding.tvDot.setOnClickListener {
-            if (!dotFlag){
-                tvinputStr = tvinput.text.toString()
-                tvinputStr += "."
-                tvinput.text = tvinputStr
-                dotFlag = true
+        val listener = View.OnClickListener { view ->
+            when (view) {
+                binding.tvOne -> buttonClick(binding.tvOne.text.toString())
+                binding.tvTwo -> buttonClick(binding.tvTwo.text.toString())
+                binding.tvThree -> buttonClick(binding.tvThree.text.toString())
+                binding.tvFour -> buttonClick(binding.tvFour.text.toString())
+                binding.tvFive -> buttonClick(binding.tvFive.text.toString())
+                binding.tvSix -> buttonClick(binding.tvSix.text.toString())
+                binding.tvSeven -> buttonClick(binding.tvSeven.text.toString())
+                binding.tvEight -> buttonClick(binding.tvEight.text.toString())
+                binding.tvNine -> buttonClick(binding.tvNine.text.toString())
+                binding.tvZero -> buttonClick(binding.tvZero.text.toString())
+                binding.tvClear -> allClear()
+                binding.tvBack -> dropLastElements()
+                binding.tvEquals -> countFinalEquals()
+                binding.tvPlus -> clickOperator(binding.tvPlus.text.toString())
+                binding.tvMinus -> clickOperator(binding.tvMinus.text.toString())
+                binding.tvDivide -> clickOperator(binding.tvDivide.text.toString())
+                binding.tvMul -> clickOperator(binding.tvMul.text.toString())
+                binding.tvDot -> addDot()
             }
         }
-
+        binding.tvOne.setOnClickListener(listener)
+        binding.tvTwo.setOnClickListener(listener)
+        binding.tvThree.setOnClickListener(listener)
+        binding.tvFour.setOnClickListener(listener)
+        binding.tvFive.setOnClickListener(listener)
+        binding.tvSix.setOnClickListener(listener)
+        binding.tvSeven.setOnClickListener(listener)
+        binding.tvEight.setOnClickListener(listener)
+        binding.tvNine.setOnClickListener(listener)
+        binding.tvZero.setOnClickListener(listener)
+        binding.tvClear.setOnClickListener(listener)
+        binding.tvBack.setOnClickListener(listener)
+        binding.tvEquals.setOnClickListener(listener)
+        binding.tvPlus.setOnClickListener (listener)
+        binding.tvMinus.setOnClickListener (listener)
+        binding.tvDivide.setOnClickListener(listener)
+        binding.tvMul.setOnClickListener (listener)
+        binding.tvDot.setOnClickListener (listener)
     }
 }
 
