@@ -13,18 +13,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val button_show = binding.buttonShow
-        val button_sqr_calc_start = binding.buttonSqrCalcStart
-        val button_start_calcute = binding.startCalcute
-        button_show.setOnClickListener{
+        binding.buttonShow.setOnClickListener{
             val tvShow = binding.tvHelloWorld
             tvShow.text = getString(R.string.hello_world)
         }
-        button_sqr_calc_start.setOnClickListener{
+        binding.buttonSqrCalcStart.setOnClickListener{
             val intent = Intent(this, SqrCalc::class.java)
             startActivity(intent)
         }
-        button_start_calcute.setOnClickListener {
+        binding.startCalcute.setOnClickListener {
             val intent = Intent(this, CalculateActivity::class.java)
             startActivity(intent)
         }
