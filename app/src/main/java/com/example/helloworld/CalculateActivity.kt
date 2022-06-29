@@ -1,11 +1,8 @@
 package com.example.helloworld
 
-import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import androidx.recyclerview.widget.RecyclerView
 import com.example.helloworld.databinding.ActivityCalculateBinding
 import kotlinx.android.synthetic.main.activity_calculate.*
 
@@ -16,121 +13,101 @@ class CalculateActivity : AppCompatActivity() {
         binding = ActivityCalculateBinding.inflate(layoutInflater)
         setContentView(binding.root)
         var operator = ""
-        var operatorOn = false
-        var firstArgument: Double
-        var secondArgument: Double
+        var firstArgument = 0.0
+        var secondArgument = 0.0
         var resultFinal = 0.0
+        var bool = false
 
-
-        fun showText(text: String){
-            Toast.makeText(this, text, Toast.LENGTH_LONG).show()
+        fun countSchet():Double {
+            when (operator) {
+                "+" -> resultFinal = firstArgument + secondArgument
+                "-" -> resultFinal = firstArgument - secondArgument
+                "/" -> {
+                    if (firstArgument == 0.0 && secondArgument == 0.0)
+                        resultFinal = 1.0
+                    else if (firstArgument.toString() != "0"  && secondArgument == 0.0)
+                        bool = true
+                    else
+                        firstArgument / secondArgument
+                }
+                "*" -> resultFinal = firstArgument * secondArgument
+            }
+            return (resultFinal)
         }
 
-        fun addDot(){
-            if ("." !in tvExpression.text.toString()){
-                binding.tvExpression.text = binding.tvExpression.text.toString() + binding.tvDot.text
+        fun addDot() {
+            if ("." !in tvExpression.text.toString()) {
+                binding.tvExpression.text =
+                    binding.tvExpression.text.toString() + binding.tvDot.text
             }
         }
 
         fun allClear() {
             binding.tvExpression.text = ""
-            binding.tvResult.text = ""
             resultFinal = 0.0
-            operatorOn = false
         }
 
-        fun dropLastElements(){
+        fun dropLastElements() {
             binding.tvExpression.text = binding.tvExpression.text.toString().dropLast(1)
         }
 
-        fun operation (operator: String) {
-            if (!operatorOn) {
-                binding.tvExpression.text = binding.tvExpression.text.toString() + operator
-                operatorOn = true
-            }else {
-                Toast.makeText(this, "Нажмите равно", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        fun clickOperator(operatorSub: String){
-            operator = operatorSub
-            operation(operatorSub)
-        }
-
-        fun buttonClick(buttonId: String){
-            binding.tvExpression.text = binding.tvExpression.text.toString() + buttonId
+        fun showResults(resultFinal1: Double) {
+            allClear()
+            if (bool)
+                binding.tvExpression.text = "Делить на ноль нельзя"
+            else
+                binding.tvExpression.text = resultFinal1.toString()
         }
 
         fun countFinalEquals() {
-            var str = binding.tvExpression.text.toString()
-            if (operatorOn) {
-                if (str.last() != operator[0]) {
-                    if (str[0] != operator[0]) {
-                        firstArgument = binding.tvExpression.text.toString().substringBefore(operator).toDouble()
-                        secondArgument = binding.tvExpression.text.toString().substringAfter(operator).toDouble()
-                        resultFinal = 0.0
-                    } else {
-                        firstArgument = resultFinal
-                        secondArgument = binding.tvExpression.text.toString().substringAfter(operator).toDouble()
-                    }
-                    when (operator) {
-                        "+" -> resultFinal = firstArgument + secondArgument
-                        "-" -> resultFinal = firstArgument - secondArgument
-                        "/" -> {
-                            if (firstArgument == 0.0 && secondArgument == 0.0)
-                                resultFinal = 1.0
-                            else
-                                resultFinal = firstArgument / secondArgument
-                        }
-                        "*" -> resultFinal = firstArgument * secondArgument
-                    }
-                    binding.tvResult.text = resultFinal.toString()
-                    binding.tvExpression.text = ""
-                    operatorOn = false
-                } else showText("Введите второе число")
-            }else showText("Выберите оператор")
+            secondArgument = binding.tvExpression.text.toString().toDouble()
+            var resultFinal1 = countSchet()
+            showResults(resultFinal1)
         }
+
+        fun clickOperator(operatorSub: String) {
+            if(binding.tvExpression.text != "") {
+                    operator = operatorSub
+                    firstArgument = binding.tvExpression.text.toString().toDouble()
+                    allClear()
+                }
+            }
 
         val listener = View.OnClickListener { view ->
             when (view) {
-                binding.tvOne -> buttonClick(binding.tvOne.text.toString())
-                binding.tvTwo -> buttonClick(binding.tvTwo.text.toString())
-                binding.tvThree -> buttonClick(binding.tvThree.text.toString())
-                binding.tvFour -> buttonClick(binding.tvFour.text.toString())
-                binding.tvFive -> buttonClick(binding.tvFive.text.toString())
-                binding.tvSix -> buttonClick(binding.tvSix.text.toString())
-                binding.tvSeven -> buttonClick(binding.tvSeven.text.toString())
-                binding.tvEight -> buttonClick(binding.tvEight.text.toString())
-                binding.tvNine -> buttonClick(binding.tvNine.text.toString())
-                binding.tvZero -> buttonClick(binding.tvZero.text.toString())
                 binding.tvClear -> allClear()
                 binding.tvBack -> dropLastElements()
                 binding.tvEquals -> countFinalEquals()
-                binding.tvPlus -> clickOperator(binding.tvPlus.text.toString())
-                binding.tvMinus -> clickOperator(binding.tvMinus.text.toString())
-                binding.tvDivide -> clickOperator(binding.tvDivide.text.toString())
-                binding.tvMul -> clickOperator(binding.tvMul.text.toString())
                 binding.tvDot -> addDot()
             }
         }
-        binding.tvOne.setOnClickListener(listener)
-        binding.tvTwo.setOnClickListener(listener)
-        binding.tvThree.setOnClickListener(listener)
-        binding.tvFour.setOnClickListener(listener)
-        binding.tvFive.setOnClickListener(listener)
-        binding.tvSix.setOnClickListener(listener)
-        binding.tvSeven.setOnClickListener(listener)
-        binding.tvEight.setOnClickListener(listener)
-        binding.tvNine.setOnClickListener(listener)
-        binding.tvZero.setOnClickListener(listener)
         binding.tvClear.setOnClickListener(listener)
         binding.tvBack.setOnClickListener(listener)
         binding.tvEquals.setOnClickListener(listener)
-        binding.tvPlus.setOnClickListener (listener)
-        binding.tvMinus.setOnClickListener (listener)
-        binding.tvDivide.setOnClickListener(listener)
-        binding.tvMul.setOnClickListener (listener)
-        binding.tvDot.setOnClickListener (listener)
+        binding.tvDot.setOnClickListener(listener)
+
+        listOf(
+            binding.tvPlus, binding.tvMinus,
+            binding.tvDivide, binding.tvMul
+        ).forEach { btn -> btn.setOnClickListener {
+                clickOperator(btn.text.toString())
+             }
+        }
+
+        listOf(
+            binding.tvOne, binding.tvTwo, binding.tvThree,
+            binding.tvFour, binding.tvFive, binding.tvSix,
+            binding.tvSeven, binding.tvEight, binding.tvNine,
+            binding.tvZero
+        ).forEach { btn -> btn.setOnClickListener {
+            val currentValue = binding.tvExpression.text
+            val newValue = btn.text
+            val text =
+                if (currentValue == "0") {
+                    newValue
+                } else "$currentValue$newValue"
+            binding.tvExpression.text = text
+        }
+        }
     }
 }
-
