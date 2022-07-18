@@ -5,20 +5,29 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import com.example.finalcalculator.CalculateActivity
+import com.example.helloworld.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    lateinit var binding : ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val button_show = findViewById<Button>(R.id.buttonShow)
-        val button_sqr_calc_start = findViewById<Button>(R.id.buttonSqrCalcStart)
-        button_show.setOnClickListener{
-            val tvShow = findViewById<TextView>(R.id.tvHelloWorld)
-            tvShow.text = "Привет мир"
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        val buttonShow = binding.buttonShow
+        val buttonSqrCalcStart = binding.buttonSqrCalcStart
+        val buttonStartCalcute = binding.startCalcute
+        buttonShow.setOnClickListener{
+            val tvShow = binding.tvHelloWorld
+            tvShow.text = getString(R.string.hello_world)
         }
-        button_sqr_calc_start.setOnClickListener{
+        buttonSqrCalcStart.setOnClickListener{
             val intent = Intent(this, SqrCalc::class.java)
             startActivity(intent)
+        }
+        buttonStartCalcute.setOnClickListener {
+            val intent = Intent(this, CalculateActivity::class.java)
+           startActivity(intent)
         }
     }
 }

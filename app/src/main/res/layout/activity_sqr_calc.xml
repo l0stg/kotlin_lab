@@ -50,7 +50,7 @@
       app:layout_constraintVertical_bias="0.039" />
 
   <Button
-      android:id="@+id/calc_x"
+      android:id="@+id/calcx"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="@string/calc_x"
@@ -65,7 +65,7 @@
       android:id="@+id/tvresults"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:textColor="@color/black"
+      android:textColor="@color/colorPrimary"
       android:textSize="20sp"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
